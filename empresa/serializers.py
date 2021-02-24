@@ -5,8 +5,23 @@ from funcionario.models import Funcionario
 from funcionario.serializers import FuncionarioListSerializer
 
 
+class FuncionarioEmpresaListSerializer(serializers.ModelSerializer):
+    username = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Funcionario
+        fields = (
+            'id',
+            'username',
+            'nome_completo'
+        )
+
+    def get_username(self, obj):
+        return obj.usuario_django.username
+
+
 class EmpresaListSerializer(serializers.ModelSerializer):
-    funcionarios = FuncionarioListSerializer(many=True)
+    funcionarios = FuncionarioEmpresaListSerializer(many=True)
 
     class Meta:
         model = Empresa

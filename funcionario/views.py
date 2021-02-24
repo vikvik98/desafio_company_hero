@@ -19,7 +19,7 @@ class FuncionarioViewSet(viewsets.ViewSet):
         instances = Funcionario.objects.all()
 
         if request.GET.get("username", None):
-            instances = instances.filter(usuario_django__username=request.GET.get("username").lower())
+            instances = instances.filter(usuario_django__username__icontains=request.GET.get("username").lower())
 
         serializer = FuncionarioListSerializer(instances, many=True)
         return Response(serializer.data)
